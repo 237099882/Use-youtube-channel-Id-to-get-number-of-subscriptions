@@ -25,7 +25,7 @@ def get_youtube_subscriber_count(api_key, channel_id):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-def update_csv_with_subscribers(api_key, csv_file_path):
+def update_csv_with_subscribers(api_key, csv_file_path, channel_id_col):
     try:
         # Open the CSV file and create a list to hold updated rows
         updated_rows = []
@@ -37,7 +37,7 @@ def update_csv_with_subscribers(api_key, csv_file_path):
 
             for row in csv_reader:
                 if len(row) > 0:
-                    channel_id = row[3].strip()  # Assuming channel ID is in the first column
+                    channel_id = row[channel_id_col+1].strip()  #get channel id
                     subscriber_count = get_youtube_subscriber_count(api_key, channel_id)
 
                     if subscriber_count is not None:
@@ -66,9 +66,10 @@ def main():
     api_key = 'AIzaSyDw_uy6LDxaNCD39UCBZbtLcWU0bXOjdXo'
 
     # Path to the CSV file containing channel IDs (user IDs)
-    csv_file_path = 'US_youtube_trending_data.csv'
+    csv_file_path = input('Enter csv file name:')
+    channel_id_col = input('Enter column of channel id')
 
-    update_csv_with_subscribers(api_key, csv_file_path)
+    update_csv_with_subscribers(api_key, csv_file_path, channel_id_col)
 
 if __name__ == "__main__":
     main()
